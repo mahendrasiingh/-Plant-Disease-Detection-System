@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plant Disease Detection</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.45),
+                    rgba(0, 0, 0, 0.45)
+                ),
+                url("/static/bg.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            width: 380px;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+        }
+
+        /* 🔥 Hide default file input */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Custom file button */
+        .file-label {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 22px;
+            background: #2e7d32;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .file-label:hover {
+            background: #1b5e20;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #444;
+        }
+
+        button {
+            margin-top: 18px;
+            padding: 12px 25px;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        .result {
+            margin-top: 25px;
+        }
+
+        .preview-img {
+            width: 220px;
+            margin-top: 12px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+        }
+
+        .prediction {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .confidence {
+            margin-top: 6px;
+            font-size: 15px;
+            color: #444;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>🌿 Plant Disease Detection</h1>
+    <p>Upload a leaf image to predict the disease</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <!-- Hidden file input -->
+        <input type="file" name="leaf_image" id="leafImage" required onchange="showFileName()">
+
+        <!-- Styled file button -->
+        <label for="leafImage" class="file-label">Choose Leaf Image</label>
+
+        <div id="fileName" class="file-name">No file selected</div>
+
+        <button type="submit">Predict Disease</button>
+    </form>
+
+    {% if prediction %}
+    <div class="result">
+        <h2>Prediction Result</h2>
+
+        {% if image_path %}
+            <img src="{{ image_path }}" class="preview-img">
+        {% endif %}
+
+        <div class="prediction">{{ prediction }}</div>
+        <div class="confidence">Confidence: {{ confidence }}%</div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function showFileName() {
+        const input = document.getElementById("leafImage");
+        const fileName = document.getElementById("fileName");
+        fileName.innerText = input.files[0].name;
+    }
+</script>
+
+</body>
+</html>
